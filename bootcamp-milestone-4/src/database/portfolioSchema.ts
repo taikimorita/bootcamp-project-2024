@@ -7,8 +7,20 @@ type Portfolio = {
     date: Date;
     project_description: string;
     slug: string; // array for comments
+    comments: IComment[]; // array of comments
 };
 
+type IComment = {
+    user: string;
+    comment: string;
+    time: Date;
+}
+
+const commentSchema = new Schema<IComment>({
+    user: { type: String, required: true },
+    comment: { type: String, required: true },
+    time: { type: Date, required: true, default: Date.now },
+});
 
 // mongoose schema 
 const portfolioSchema = new Schema<Portfolio>({
@@ -17,6 +29,7 @@ const portfolioSchema = new Schema<Portfolio>({
     date: { type: Date, required: false, default: new Date()},
     project_description: { type: String, required: true },
     slug: { type: String, required: true },
+    comments: { type: [commentSchema], default: [] }, // Add comments array
 })
 
 // defining the collection and model
